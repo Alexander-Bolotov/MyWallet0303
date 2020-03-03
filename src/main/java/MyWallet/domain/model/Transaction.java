@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "transactions")
@@ -20,8 +22,13 @@ public class Transaction {
     private Date date;
 
     @JsonView(Transaction.class)
-    @ManyToOne
-    private TypeOfTransaction typeOfTransaction;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "typeOfTransaction_transactions",
+            joinColumns = @JoinColumn(name = "transaction_id"),
+            inverseJoinColumns = @JoinColumn(name = "typeOfTransaction_id"))
+    private Set<TypeOfTransaction> typeOfTransactions = new HashSet<>();;
 
     @JsonView(Transaction.class)
     @Column(name = "sumOfTransaction")
@@ -46,12 +53,12 @@ public class Transaction {
         this.date = date;
     }
 
-    public TypeOfTransaction getTypeOfTransaction() {
-        return typeOfTransaction;
+    public Set<TypeOfTransaction> getTypeOfTransactions() {
+        return typeOfTransactions;
     }
 
-    public void setTypeOfTransaction(TypeOfTransaction typeOfTransaction) {
-        this.typeOfTransaction = typeOfTransaction;
+    public void setTypeOfTransactions(Set<TypeOfTransaction> typeOfTransactions) {
+        this.typeOfTransactions = typeOfTransactions;
     }
 
     public int getSumOfTransaction() {
@@ -60,5 +67,16 @@ public class Transaction {
 
     public void setSumOfTransaction(int sumOfTransaction) {
         this.sumOfTransaction = sumOfTransaction;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Transaction{");
+        sb.append("id=").append(id);
+        sb.append(", date=").append(date);
+        sb.append(", typeOfTransactions=").append(typeOfTransactions);
+        sb.append(", sumOfTransaction=").append(sumOfTransaction);
+        sb.append('}');
+        return sb.toString();
     }
 }

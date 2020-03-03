@@ -2,6 +2,7 @@ package MyWallet.domain.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -13,12 +14,13 @@ import java.util.Set;
 public class Role implements GrantedAuthority,
  Serializable {
 
-
+    @JsonView(User.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    @JsonView(User.class)
     @Column(name = "role")
     private String role;
 

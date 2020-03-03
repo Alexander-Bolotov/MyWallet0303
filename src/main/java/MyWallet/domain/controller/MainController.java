@@ -1,8 +1,10 @@
 package MyWallet.domain.controller;
 
 import MyWallet.domain.dao.TransactionDao;
+import MyWallet.domain.dao.UserDao;
 import MyWallet.domain.model.Role;
 import MyWallet.domain.model.Transaction;
+import MyWallet.domain.model.TypeOfTransaction;
 import MyWallet.domain.model.User;
 import MyWallet.domain.repository.RoleRepository;
 import MyWallet.domain.repository.TransactionRepository;
@@ -35,6 +37,9 @@ public class MainController {
 
     @Autowired
     TransactionDao transactionDao;
+
+    @Autowired
+    private UserDao userDao;
 
     static final String USER_FORM = "/user-form";
     static final String USER_DATA = "/userdata";
@@ -102,5 +107,11 @@ public class MainController {
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Transaction>> getTransactionList() {
         return new ResponseEntity<List<Transaction>>(transactionDao.getAllTransactions(), HttpStatus.OK);
+    }
+
+    @JsonView(User.class)
+    @RequestMapping(value = "/listuser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<User>> getUserList() {
+        return new ResponseEntity<List<User>>(userDao.getListUsers(), HttpStatus.OK);
     }
 }

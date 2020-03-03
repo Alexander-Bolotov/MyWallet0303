@@ -1,5 +1,6 @@
 package MyWallet.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,17 +13,21 @@ import java.util.*;
 @Table(name = "users")
 public class User implements UserDetails, Serializable {
 
+    @JsonView(User.class)
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    @JsonView(User.class)
     @Column(name = "name", unique = true)
     private String name;
 
+    @JsonView(User.class)
     @Column(name = "password")
     private String password;
 
+    @JsonView(User.class)
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             fetch = FetchType.EAGER)
     @JoinTable(
@@ -31,20 +36,14 @@ public class User implements UserDetails, Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<Role>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Wallet> wallets = new ArrayList<>();
 
+    public User() {
+    }
 
-
-    public User(String name, String password, Set<Role> roles, List<Wallet> wallets) {
+    public User(String name, String password, Set<Role> roles) {
         this.name = name;
         this.password = password;
         this.roles = roles;
-        this.wallets = wallets;
-    }
-
-    public User() {
-
     }
 
     public Long getId() {
@@ -119,13 +118,6 @@ public class User implements UserDetails, Serializable {
         role.getUsers().remove(this);
     }
 
-    public List<Wallet> getWallets() {
-        return wallets;
-    }
-
-    public void setWallets(List<Wallet> wallets) {
-        this.wallets = wallets;
-    }
 
     @Override
     public String toString() {
@@ -134,7 +126,6 @@ public class User implements UserDetails, Serializable {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
-                ", wallets=" + wallets +
                 '}';
     }
 }

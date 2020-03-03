@@ -2,10 +2,7 @@ package MyWallet.domain.dao;
 
 
 import MyWallet.domain.model.Transaction;
-import MyWallet.domain.model.TypeOfTransaction;
-import MyWallet.domain.model.Wallet;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Date;
 
 import java.util.List;
