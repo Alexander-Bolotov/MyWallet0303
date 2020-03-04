@@ -28,11 +28,36 @@ public class Transaction {
             name = "typeOfTransaction_transactions",
             joinColumns = @JoinColumn(name = "transaction_id"),
             inverseJoinColumns = @JoinColumn(name = "typeOfTransaction_id"))
-    private Set<TypeOfTransaction> typeOfTransactions = new HashSet<>();;
+    private Set<TypeOfTransaction> typeOfTransaction = new HashSet<>();;
 
     @JsonView(Transaction.class)
     @Column(name = "sumOfTransaction")
     private int sumOfTransaction;
+
+    @JsonView(Transaction.class)
+    @ManyToOne
+    @JoinColumn(name = "income_wallet_id",
+            foreignKey = @ForeignKey(name = "INCOME_WALLET_ID_FK")
+    )
+    private Wallet income_Wallet;
+
+    @JsonView(Transaction.class)
+    @ManyToOne
+    @JoinColumn(name = "out_wallet_id",
+            foreignKey = @ForeignKey(name = "OUT_WALLET_ID_FK")
+    )
+    private Wallet out_Wallet;
+
+    @JsonView(Transaction.class)
+    @ManyToOne
+    @JoinColumn(name = "user_id",
+            foreignKey = @ForeignKey(name = "USER_ID_FK")
+    )
+    private User user;
+
+    @JsonView(Transaction.class)
+    @Column(name = "comment")
+    private String comment;
 
     public Transaction() {
     }
@@ -54,11 +79,11 @@ public class Transaction {
     }
 
     public Set<TypeOfTransaction> getTypeOfTransactions() {
-        return typeOfTransactions;
+        return typeOfTransaction;
     }
 
     public void setTypeOfTransactions(Set<TypeOfTransaction> typeOfTransactions) {
-        this.typeOfTransactions = typeOfTransactions;
+        this.typeOfTransaction = typeOfTransactions;
     }
 
     public int getSumOfTransaction() {
@@ -69,12 +94,14 @@ public class Transaction {
         this.sumOfTransaction = sumOfTransaction;
     }
 
+
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Transaction{");
         sb.append("id=").append(id);
         sb.append(", date=").append(date);
-        sb.append(", typeOfTransactions=").append(typeOfTransactions);
+        sb.append(", typeOfTransactions=").append(typeOfTransaction);
         sb.append(", sumOfTransaction=").append(sumOfTransaction);
         sb.append('}');
         return sb.toString();

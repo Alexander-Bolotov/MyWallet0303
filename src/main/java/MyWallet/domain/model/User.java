@@ -19,7 +19,8 @@ public class User implements UserDetails, Serializable {
     @Column(name = "id")
     private Long id;
 
-    @JsonView(User.class)
+
+    @JsonView({User.class,Transaction.class})
     @Column(name = "name", unique = true)
     private String name;
 

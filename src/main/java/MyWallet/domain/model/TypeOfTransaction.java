@@ -21,7 +21,7 @@ public class TypeOfTransaction {
     private String typeOfTransaction;
 
 
-    @ManyToMany(mappedBy = "typeOfTransactions", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "typeOfTransaction", cascade = CascadeType.ALL)
     private Set<Transaction> transaction;
 
     public TypeOfTransaction() {
