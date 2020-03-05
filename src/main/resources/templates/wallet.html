@@ -17,23 +17,17 @@
         </div>
         <div class="col-md-4">
         </div>
-        <div class="col-md-4">
-            <button type="button" class="btn btn-success">Button</button>
-        </div>
+
     </div>
     <div class="row">
         <div class="col-md-6">
             <input type="month">
-        </div>
+        </div >
+
         <div class="col-md-6">
-            <blockquote class="blockquote">
-                <p class="mb-0">
-                    Lorem ipsum dolor sit amet.
-                </p>
-                <footer class="blockquote-footer">
-                    Someone famous in <cite>Source Title</cite>
-                </footer>
-            </blockquote>
+            <div class="col-md-6">
+                <button id="addButton" type="button" class="btn btn-success">Добавить</button>
+            </div >
         </div>
     </div>
     <div class="row">
@@ -56,6 +50,78 @@
 </div>
 
 
+<!-- HTML-код модального окна -->
+<div id="myModalBox" class="modal fade" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Добавление транзакции</h4>
+            </div>
+            <!-- Основное содержимое модального окна -->
+            <div class="modal-body">
+                <form id="addTransaction">
+                    <div class="form-group">
+                        <label for="data">Дата</label>
+                        <input type="date" class="form-control" name="data" id="data">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="some-select">Тип транзакции</label>
+                            <p><select class="form-control" id="some-select" name="typeOfTransaction" aria-required="true">
+                                <option value="1">Доход</option>
+                                <option value="2" selected="selected">Расход</option>
+                                <option value="3">Перевод</option>
+                        </select></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="lab2"  for="outWallet" style='display: block;'>Счет списания</label>
+                        <input  type="text" class="form-control"  id="outWallet" name="outWallet" style='display: block;'>
+
+                    </div>
+                    <div class="form-group">
+                        <label  id = "lab1" for="incomeWallet" style='display: none;'>Счет зачисления</label>
+                        <input  type="text" class="form-control"  id="incomeWallet" name="incomeWallet" style='display: none;'>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="summ">Сумма, руб.</label>
+                        <input type="number" class="form-control"  id="summ" name="summ">
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="user">Пользователь</label>
+                        <input type="text" class="form-control"  id="user" name="user">
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">Комментарий</label>
+                        <input type="text" class="form-control"  id="comment" name="comment">
+
+                    </div>
+
+                    <label for="category"></label>
+                    <p><select multiple size="1" class="form-control" id="category" name="category">
+                        <option value="1">Доход</option>
+                        <option value="2">Расход</option>
+                        <option value="3">Перевод</option>
+                    </select></p>
+                </form>
+            </div>
+            <!-- Футер модального окна -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="modal_close" >Сохранить изменения</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -68,5 +134,7 @@
 <!--<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
 </body>
 </html>

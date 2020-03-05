@@ -2,10 +2,8 @@ package MyWallet.domain.controller;
 
 import MyWallet.domain.dao.TransactionDao;
 import MyWallet.domain.dao.UserDao;
-import MyWallet.domain.model.Role;
-import MyWallet.domain.model.Transaction;
-import MyWallet.domain.model.TypeOfTransaction;
-import MyWallet.domain.model.User;
+import MyWallet.domain.dao.WalletDao;
+import MyWallet.domain.model.*;
 import MyWallet.domain.repository.RoleRepository;
 import MyWallet.domain.repository.TransactionRepository;
 import MyWallet.domain.repository.UserRepository;
@@ -28,7 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 @RequestMapping
-@RestController
+@RestController("/wallet")
 public class MainController {
     @Autowired
     UserRepository userRepository;
@@ -41,11 +39,17 @@ public class MainController {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private WalletDao walletDao;
+
     static final String USER_FORM = "/user-form";
     static final String USER_DATA = "/userdata";
 
-
-
+    @JsonView(Wallet.class)
+    @RequestMapping(value = "/wallets", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Wallet>> getWallets() {
+        return new ResponseEntity<List<Wallet>>(walletDao.getListWallets(), HttpStatus.OK);
+    }
 
 
     @RequestMapping(value = "/update")

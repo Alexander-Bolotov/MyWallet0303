@@ -16,13 +16,20 @@ public class TypeOfTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @JsonView(Transaction.class)
     @Column(name = "typeOfTransaction")
     private String typeOfTransaction;
 
+    @JsonView(User.class)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "TypeOfTrans_category",
+            joinColumns = @JoinColumn(name = "type_of_transaction_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories = new HashSet<Category>();
 
-    @ManyToMany(mappedBy = "typeOfTransaction", cascade = CascadeType.ALL)
-    private Set<Transaction> transaction;
 
     public TypeOfTransaction() {
     }
@@ -43,20 +50,13 @@ public class TypeOfTransaction {
         this.typeOfTransaction = typeOfTransaction;
     }
 
-    public Set<Transaction> getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(Set<Transaction> transaction) {
-        this.transaction = transaction;
-    }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("TypeOfTransaction{");
         sb.append("id=").append(id);
         sb.append(", typeOfTransaction='").append(typeOfTransaction).append('\'');
-        sb.append(", transaction=").append(transaction);
+
         sb.append('}');
         return sb.toString();
     }

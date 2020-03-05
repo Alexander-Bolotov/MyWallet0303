@@ -3,6 +3,7 @@ package MyWallet.domain.model;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,13 +23,10 @@ public class Transaction {
     private Date date;
 
     @JsonView(Transaction.class)
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "typeOfTransaction_transactions",
-            joinColumns = @JoinColumn(name = "transaction_id"),
-            inverseJoinColumns = @JoinColumn(name = "typeOfTransaction_id"))
-    private Set<TypeOfTransaction> typeOfTransaction = new HashSet<>();;
+    @ManyToOne
+    @JoinColumn(name = "typeOfTransaction_id",
+            foreignKey = @ForeignKey(name = "typeOfTransaction_ID_FK"))
+    private TypeOfTransaction typeOfTransaction;
 
     @JsonView(Transaction.class)
     @Column(name = "sumOfTransaction")
@@ -59,6 +57,13 @@ public class Transaction {
     @Column(name = "comment")
     private String comment;
 
+    @JsonView(Transaction.class)
+    @ManyToOne
+    @JoinColumn(name = "category_id",
+            foreignKey = @ForeignKey(name = "CATEGORY_ID_FK")
+    )
+    private Category category;
+
     public Transaction() {
     }
 
@@ -76,14 +81,6 @@ public class Transaction {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Set<TypeOfTransaction> getTypeOfTransactions() {
-        return typeOfTransaction;
-    }
-
-    public void setTypeOfTransactions(Set<TypeOfTransaction> typeOfTransactions) {
-        this.typeOfTransaction = typeOfTransactions;
     }
 
     public int getSumOfTransaction() {
